@@ -1,0 +1,137 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+}
+
+html, body{
+    height:100%;
+    padding:10px;
+    background-color: rgb(101, 105, 109);
+}
+
+body{
+    display: flex;
+    align-items: center;
+}
+
+
+
+.calculator-container {
+    max-width: 500px;
+    /* 최대 넓이 강제성 */
+    display: flex;
+    /* 컨테이너 안에 있는 div박스를 플렉스함 */
+    flex-direction: column;
+    /* 그냥 플렉스를 쓰면 디폴트값이 row라서 좌우로 나누어짐 하지만 column으로 아래로 나열시킴 x축 >> y축 */
+    border: 1px solid rgb(205, 205, 205);
+    margin:0 auto;
+    padding:2rem; 
+    /* 2rem은 부모가 픽셀 기준을 잡지 않았기 때문에 html의 16픽셀을 기준으로 잡힌다 따라서 40픽셀셀 */
+    height:80%;
+    border-radius: 16px;
+    /* 모서리부분을 다듬어서 뷰포인트 증가가 */
+    box-shadow: 1px 2px 7px rgba(0, 0, 0, 0.7);
+    background: rgba(239, 250, 255, 0.802);        /* 반투명 흰색 배경 */
+    backdrop-filter: blur(10px);                 /* 뒤에 있는 배경을 10px 만큼 흐리게 */
+    -webkit-backdrop-filter: blur(10px); 
+}
+
+    .display {
+    /* flex: 1; */
+    /* 전체 크기의 1만큼차지 */
+    border: 1px solid #eee;
+    font-weight: bold;
+    margin-bottom:20px;
+    border-radius: 40px;
+    padding: 15px 20px;
+    display: flex;            /* flex 컨테이너로 만들기 */
+    align-items: center;     /* display 박스와 button박스의 간격격 */
+    text-align: right;
+    justify-content: end;
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.3); /* 박스의 그림자 효과 inset을 넣어 내부(inner) 섀도우 효과 */
+}
+
+    .buttons {
+    flex: 5;
+    /* 전체 크기의 7만큼차지*/
+    font-weight: bold;
+    /* padding: 10px; */
+}
+
+/* 맥북 버튼 */
+
+/* 버튼들을 묶어두는 부모요소 */
+.window-header {
+    display: flex;
+    /* 좌우로 나열 시키는 플렉스 */
+    gap: 8px;
+    /* 버튼들의 간격을 8px만큼 줌 */
+    margin-bottom: 10px;
+    /* 버튼과 display박스 사이의 간격*/
+}
+
+.dot {
+    width: 14px;
+    height: 14px;
+    /* 버튼의 크기 */
+    border-radius: 50%;
+    /* radius 50%로 원을 만듬 */
+    display: inline-block;
+    /* span은 인라인 요소라서 크기변경 불가능 but, 인라인블럭으로 강제 변경하여 크기변경 ok*/
+    cursor: pointer;
+    /* 커서 포인트로 아무 기능이 없지만 마우스를 갖다댔을때 커서의 포인터 모양을 변경 해줌으로 뷰포인트 증가가 */
+}
+
+.red { background-color: #ff5f56; }
+.yellow { background-color: #ffbd2e; }
+.green { background-color: #27c93f; }
+
+
+
+/* 버튼구성 */
+.calculator-container .buttons {
+    display: flex;
+    flex-wrap: wrap;    /* 줄바꿈 허용 */
+    gap: 8px;           /* 그리드의 grid-gap 과 동일 */
+}
+
+  /* 버튼 기본 너비를 1 단위로 설정 (한 줄에 4개) */
+.calculator-container .buttons button {
+    flex-basis:  calc((100% - 8px * 3) / 4); /* 한 줄에 버튼이 4개 있을 때, 버튼 사이에 생기는 gap(8px) 은 3곳 */
+    /* 아래 기존 스타일 그대로 유지 */
+    font-size: 1.2rem;
+    border:none;
+    border-radius: 4px;
+    color:#fff;
+    cursor: pointer;
+    background-color:#cad3df;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3),
+    inset 1px 2px 6px rgba(255, 255, 255, 0.796);
+}
+
+.calculator-container .buttons button:hover{
+    background-color:#bbc6d0; /* 마우스를 갖다댔을때 변하는 배경색 */
+}
+
+.calculator-container .buttons button:active{
+    background-color:#a9b7c4; /* 마우스를 클릭했을 때 변하는 배경색 */
+}
+
+/* 숫자 0 버튼은 flex 단위를 2로 늘려 두 칸 차지 */
+.calculator-container .buttons .zero {
+    flex: 0 0 calc((100% - 8px) / 2); /* 컨텐츠가 차지할 크기를 calc함수를 이용하여 전체 100%에서 갭8픽셀을 제외한 크기를 차지 */
+}
+
+
+.buttons button.right{
+    background-color:#d6d2f2;
+    color:#000;
+}
+.buttons button.right:hover{
+    background-color:#c9c4e4;
+}
+.buttons button.right:active{
+    background-color:#bfbae1;
+}
+

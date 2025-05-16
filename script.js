@@ -3,6 +3,8 @@ const buttons = document.querySelectorAll('.button');
 
 //디스플레이 요소와 숫자 버튼들 선택
 const displayEl = document.querySelector('.display');
+const expressionEl = document.querySelector('.expression');
+const resultEl     = document.querySelector('.result');
 const numberButtons = document.querySelectorAll('.number');
 
 // 소수점 및 초기화버튼
@@ -24,16 +26,20 @@ buttons.forEach((button) => {
         console.log(button.textContent);
     });
 });
+//클릭시 콘솔로 클릭한 버튼의 값이 출력됨
 
-numberButtons.forEach((btn) => {
+
+// 2) 숫자 버튼 이벤트
+numberButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-        const digit = btn.textContent;
-        if (currentInput === '0') {
-            currentInput = digit;
-        } else {
-            currentInput += digit;
-        }
-        displayEl.textContent = currentInput;
+      const digit = btn.textContent;        // 눌린 버튼 값
+    if (currentInput === '0') {
+        currentInput = digit;               // 0일 때는 그대로 대체
+    } else {
+        currentInput += digit;              // 그 외에는 뒤에 붙이기
+    }
+      resultEl.textContent = currentInput;  // 아래줄 결과에 표시
+      // 식 부분은 그대로 두거나, 필요에 따라 초기화/유지
     });
 });
 
@@ -47,38 +53,46 @@ decimalButton.addEventListener('click', () => {
 
 // 4) C 버튼 처리 (초기화)
 clearButton.addEventListener('click', () => {
+    expressionEl.textContent = '';
+    resultEl.textContent     = '0';
     currentInput = '0';
     operator = null;
-    firstOperand = null;
-    secondOperand = null;
-    displayEl.textContent = currentInput;
+    firstOperand = secondOperand = null;
 });
 
 // 5) 연산자 버튼 처리 (+, -, *, /)
-operEl.forEach((btn) => {
+operEl.forEach(btn => {
     btn.addEventListener('click', () => {
-        if(firstOperand == null) {
+        if (firstOperand == null) {
             firstOperand = parseFloat(currentInput);
         } else if (operator) {
             secondOperand = parseFloat(currentInput);
             firstOperand = operate(firstOperand, secondOperand, operator);
-            displayEl.textContent = firstOperand;
         }
         operator = btn.textContent;
         currentInput = '0';
+        // 식 표시: 예) "12 +"
+            expressionEl.textContent = `${firstOperand} ${operator}`;
+            resultEl.textContent     = firstOperand;
+        });
     });
-});
 
 // 6) equals 버튼 처리
 equalsButton.addEventListener('click', () => {
     if (operator && firstOperand != null) {
         secondOperand = parseFloat(currentInput);
-        firstOperand = operate(firstOperand, secondOperand, operator);
-        displayEl.textContent = firstOperand;
-        operator = null; // 연산 후 operator 초기화
-        currentInput = '0';  // 결과 정리
-    }
-});
+        const calcResult = operate(firstOperand, secondOperand, operator);
+
+      // 최종 식과 결과 출력
+        expressionEl.textContent = `${firstOperand} ${operator} ${secondOperand} =`;
+        resultEl.textContent     = calcResult;
+
+      // 상태 초기화
+        operator = null;
+        firstOperand = calcResult;
+        currentInput = '0';
+        }
+    });
 
 // 7) 연산 수행 함수
 function operate(a, b, operator) {

@@ -10,15 +10,15 @@ html, body{
     background-color: rgb(101, 105, 109);
 }
 
-body{
+/* body{
     display: flex;
     align-items: center;
-}
+} */
 
 
 
 .calculator-container {
-    max-width: 500px;
+    max-width: 550px;
     /* 최대 넓이 강제성 */
     display: flex;
     /* 컨테이너 안에 있는 div박스를 플렉스함 */
@@ -128,6 +128,11 @@ body{
     box-shadow: 1px 2px 3px rgba(0, 0, 0, 0.3),
     inset 1px 2px 6px rgba(255, 255, 255, 0.796);
 }
+.button {
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+}
 
 .calculator-container .buttons button:hover{
     background-color:#bbc6d0; /* 마우스를 갖다댔을때 변하는 배경색 */
@@ -154,3 +159,57 @@ body{
     background-color:#bfbae1;
 }
 
+
+
+.button::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform: scale(0);
+    background: rgba(255, 255, 255, 0.6); /* 효과 컬러 */
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.button.ripple::after {
+    animation: ripple-effect 0.5s ease-out;
+}
+
+
+.ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    transform: translate(-50%, -50%) scale(0); /* 중심 기준으로 맞추기 */
+    animation: ripple-animation 1s cubic-bezier(0.25, 0.1, 0.25, 1);
+    background-color: rgba(255, 255, 255, 0.5);
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes ripple-animation {
+    0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0.4;
+    }
+    100% {
+    transform: translate(-50%, -50%) scale(4);
+    opacity: 0;
+    }
+}
+
+@keyframes ripple-effect {
+    from {
+    transform: scale(0);
+    opacity: 0.5;
+    }
+    to {
+      transform: scale(1.2);  /* 버튼 전체를 덮고 조금 더 퍼지게 */
+    opacity: 0;
+    }
+}
